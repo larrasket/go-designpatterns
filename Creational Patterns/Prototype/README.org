@@ -1,0 +1,79 @@
+:PROPERTIES:
+:ID:       1095cf8d-6b4a-47a9-8dd8-59b49e1a9110
+:END:
+#+title: Prototype
+
+The prototype pattern is a [[id:7b8fa54f-c997-4476-a768-77f349bf6129][creational pattern]] that specifies the kinds of objects to create using a prototypical instance, and create new
+objects by copying this prototype.
+
+* The Problem
+
+Say you have an object, and you want to create an exact copy of it. How would you do it? First, you have to
+create a new object of the same class. Then you have to go through all the fields of the original object and
+copy their values over to the new object.
+
+However, this is not always possible, maybe you will face a type with too many properties to copy manually, or
+even with a private properties, which make it only possible with reflection and painful coding. You also might
+be dealing with an interface type (i.e. you only have access to the main interface properties)
+
+* Solution
+
+The Prototype pattern delegates the cloning process to the actual objects that are being cloned. The pattern
+declares a common interface for all objects that support cloning. This interface lets you clone an object
+without coupling your code to the class of that object. Usually, such an interface contains just a single
+~clone~ method.
+
+The implementation of the ~clone~ method is very similar in all classes. The method creates an object of the
+current class and carries over all of the field values of the old object into the new one. You can even copy
+private fields because most programming languages let objects access private fields of other objects that
+belong to the same class.
+
+An object that supports cloning is called a *prototype*. When your objects have dozens of fields and hundreds of
+possible configurations, cloning them might serve as an alternative to subclassing.
+
+* Structure
+#+begin_src plantuml :file symbols.png
+/' PROTOTYPE '/
+
+@startuml
+skinparam backgroundcolor transparent
+interface Prototype {
+    + clone()
+}
+
+class Client
+
+class ConcretePrototype1 {
+    + clone()
+}
+
+class ConcretePrototype2 {
+    + clone()
+}
+
+hide empty members
+
+Client --> Prototype
+Prototype <|-- ConcretePrototype1
+Prototype <|-- ConcretePrototype2
+
+note as N1
+    <b><color:royalBlue>Prototype</color></b>
+    <b>Type:</b> Creational
+    Specify the kinds of objects to create
+    using a prototypical instance, and
+    create new objects by copying this prototype.
+end note
+
+@enduml
+#+end_src
+
+#+RESULTS:
+[[file:symbols.png]]
+
++ ~Prototype~
+  - declares an interface for cloning itself
++ ~ConcretePrototype~
+  - implements an operation for cloning itself
++ ~Client~
+  - creates a new object by asking a prototype to clone itself

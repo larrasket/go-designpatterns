@@ -1,0 +1,90 @@
+:PROPERTIES:
+:ID:       ab7e469b-eba8-4569-b88c-33d84b40cac9
+:END:
+#+title: Observer
+
+
+The observer pattern is a [[id:76d25eaf-b3c8-407f-bd77-80d02942ebac][behavioral Pattern]] designs a one-to-many dependency between
+objects so that when one object changes state, all its dependents are notified and updated
+automatically.
+
+/Also Known As Dependents, Publish-Subscribe/
+
+* The Problem
+
+The problem that the observer design pattern resolve is quite simple, imagine you are trying
+to build a kind of a newspaper or a social services, maillists, which all of them includes
+the same relationship between objects: one-to-many. Let's take building e-commerce website
+as an example, some customers are interested in some coming-soon products. Here, there are
+two scenarios for the customers: 1. They would be visiting the website each ~5 minutes to
+check whether the product is available. 2. They (all of them) will receive an email from the
+store to be informed that the new product is available, which is very inefficient solution
+because many of users do not care about that product.
+* Bad Solution
+There is no limits of how you can go bad in solving this problem, sol just let's go on the solution.
+* Solution
+Defining a one-to-many relationship between the objects resolve the problem. We call the
+object that has an interesting 'news' to inform other objects, an subject, and other objects
+are observers. And we define an interaction between them which is known as
+*publish-subscribe*.
+* Structure
+
+#+begin_src plantuml :file symbols.png
+/' OBSERVER '/
+
+@startuml
+skinparam backgroundcolor transparent
+
+interface Subject {
+    + attach(in o : Observer)
+    + detach(in o : Observer)
+    + notify()
+}
+
+class ConcreteSubject {
+    - subjectState
+}
+
+interface Observer {
+    + update()
+}
+
+class ConcreteObserver {
+    - observerState
+    + update()
+}
+
+hide empty members
+
+Subject -> Observer : notifies
+Subject <|-- ConcreteSubject
+Observer <|-- ConcreteObserver
+ConcreteSubject <- ConcreteObserver : observes
+
+note as N1
+    <b><color:royalBlue>Observer</color></b>
+    <b>Type:</b> Behavioral
+    Define a one-to-many dependency between
+    objects so that when one object changes
+    state, all its dependents are notified and
+    updated automatically.
+end note
+
+@enduml
+#+end_src
+
+#+RESULTS:
+[[file:symbols.png]]
+
++ Subject
+  - knows its observers. Any number of Observer objects may observe a subject.
+  - provides an interface for attaching and detaching Observer objects.
++ Observer
+  - defines an updating interface for objects that should be notified of changes in a subject.
++ ~ConcreteSubject~
+  - stores state of interest to ~ConcreteObserver~ objects.
+  - sends a notification to its observers when its state changes.
++ ~ConcreteObserver~
+  - maintains a reference to a ~ConcreteSubject~ object.
+  - stores state that should stay consistent with the subject's.
+  - implements the Observer updating interface to keep its state consistent with the subject's.

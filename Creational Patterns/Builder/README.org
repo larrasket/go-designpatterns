@@ -1,0 +1,66 @@
+:PROPERTIES:
+:ID:       087493e8-f613-49d8-a3b3-0320fb101cd0
+:END:
+#+title: Builder
+
+The builder pattern is a [[id:7b8fa54f-c997-4476-a768-77f349bf6129][creational pattern]] that separates the construction of a complex
+object from its representation so that the same construction process can create different
+representations.
+
+* The Problem
+A reader for the RTF (Rich Text Format) document exchange format should be able to convert RTF to many text
+formats. The reader might convert RTF documents into plain ASCII text or into a text widget that can be edited
+interactively. The problem, however, is that the number of possible conversions is open-ended. So it should be
+easy to add a new conversion without modifying the reader.
+
+* TODO Bad Solution
+* Solution
+A solution is to configure the ~RTFReader~ class with a ~TextConverter~ object that converts RTF to another
+text representation. As the RTFReader parses the RTF document, it uses the ~TextConverter~ to perform the
+conversion. Whenever the ~RTFReader~ recognizes an RTF token (either plain text or an RTF control word), it
+issues a request to the ~TextConverter~ to convert the token. TextConverter objects are responsible both for
+performing the data conversion and for representing the token in a particular format.
+
+Subclasses of ~TextConverter~ specialize in different conversions and formats. For example, an
+~ASCIIConverter~ ignores requests to convert anything except plain text. A ~TeXConverter~, on the other hand,
+will implement operations for all requests in order to produce a $\TeX$ representation that captures all the
+stylistic information in the text. A ~TextWidgetConverter~ will produce a complex user interface object that
+lets the user see and edit the text.
+
+* Structure
+#+begin_src plantuml :file symbols.png
+/' BUILDER '/
+
+@startuml
+skinparam backgroundcolor transparent
+
+class Director {
+    + construct()
+}
+
+interface Builder {
+    buildPart()
+}
+
+class ConcreteBuilder {
+    + buildPart()
+    + getResult()
+}
+
+Director *- Builder
+Builder <|-- ConcreteBuilder
+
+note as N1
+    <b><color:royalBlue>Builder</color></b>
+    Separate the construction of a
+    complex object from its representing
+    so that the same construction
+    process can create different
+    representations.
+end note
+
+@enduml
+#+end_src
+
+#+RESULTS:
+[[file:symbols.png]]

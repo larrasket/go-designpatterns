@@ -1,0 +1,133 @@
+:PROPERTIES:
+:ID:       a4548202-7994-452d-af61-2b3d50599efc
+:END:
+#+title: Strategy
+
+The strategy pattern is a [[id:76d25eaf-b3c8-407f-bd77-80d02942ebac][behavioral pattern]] that defines a family of algorithms,
+encapsulate each one, and make them interchange- able. Strategy lets the algorithm vary
+independently from clients that use it.
+
+/Also Known As Policy/, this name is commonly used in computer science conferences, for example, in /Operating
+System Concepts/ section *2.2.7. Mechanisms and Policies* it states the following:
+
+#+begin_quote
+One important principle is the separation of policy from mechanism. Mechanisms determine how to do something;
+policies determine what will be done.  For example, the timer construct (see Section 1.4.3) is a mechanism for
+ensuring CPU protection, but deciding how long the timer is to be set for a particular user is a policy
+decision.
+
+The separation of policy and mechanism is important for flexibility. Policies are likely to change across
+places or over time. In the worst case, each change in policy would require a change in the underlying
+mechanism. A general mechanism flexible enough to work across a range of policies is preferable.  A change in
+policy would then require redefinition of only certain parameters of the system. For instance, consider a
+mechanism for giving priority to certain types of programs over others. If the mechanism is properly separated
+from policy, it can be used either to support a policy decision that I/O-intensive programs should have
+priority over CPU-intensive ones or to support the opposite policy.
+
+Microkernel-based operating systems (discussed in Section 2.8.3) take the separation of mechanism and policy
+to one extreme by implementing a basic set of primitive building blocks. These blocks are almost policy free,
+allowing more advanced mechanisms and policies to be added via user-created kernel modules or user programs
+themselves. In contrast, consider Windows, an enormously popular commercial operating system available for
+over three decades. Microsoft has closely encoded both mechanism and policy into the system to enforce a
+global look and feel across all devices that run the Windows operating system. All applications have similar
+interfaces, because the interface itself is built into the kernel and system libraries. Apple has adopted a
+similar strategy with its macOS and iOS operating systems.
+
+We can make a similar comparison between commercial and open-source operating systems. For instance, contrast
+Windows, discussed above, with Linux, an open-source operating system that runs on a wide range of computing
+devices and has been available for over 25 years. The “standard” Linux kernel has a specific CPU scheduling
+algorithm (covered in Section 5.7.1), which is a mechanism that supports a certain policy. However, anyone is
+free to modify or replace the scheduler to support a different policy.  Policy decisions are important for all
+resource allocation. Whenever it is necessary to decide whether or not to allocate a resource, a policy
+decision must be made. Whenever the question is how rather than what, it is a mechanism that must be
+determined.
+#+end_quote
+
+* The Problem
+Many algorithms exist for implementing our desired $x$. Hard-wiring all such algorithms into the classes that
+require them isn't desirable for several reasons:
+
+/For now let $x$ be building a cache management system/
++ Clients that need $x$ get more complex if they include the algorithm code. That makes clients bigger and
+  harder to maintain, especially if they support multiple $x$ algorithms.
+
+  In our example, for instance, we will need to have multiple implementations of the cache management system,
+  since it would be pointless to support multiple caching algorithms while we are not using them. Thus, we
+  will have to have some kind of
+  #+begin_example
+type CacheWithLRU struct {}
+type CacheWithFIFO struct {}
+...
+  #+end_example
+  Which will produce multiple unneeded copies of the same ~cache~ class.
++ Different algorithms will be appropriate at different times. We don't want to support multiple $x$
+  algorithms if we don't use them all.
+    Other wise we are bloating our code.
++ It's difficult to add new algorithms and vary existing ones when $x$ is an integral part of a client.
+
+* Solution
+
+We can avoid these problems by defining classes that encapsulate different $x$ algorithms. An algorithm that's
+encapsulated in this way is called a strategy
+
+The original class, called context, must have a field for storing a reference to one of the strategies. The
+context delegates the work to a linked strategy object instead of executing it on its own. (This usually make
+use of interfaces or pointers in some languages)
+
+The context isn’t responsible for selecting an appropriate algorithm for the job. Instead, the client passes
+the desired strategy to the context. In fact, the context doesn’t know much about strategies. It works with
+all strategies through the same generic interface, which only exposes a single method for triggering the
+algorithm encapsulated within the selected strategy.
+
+* Structure
+
+#+begin_src plantuml :file symbols.png
+/' STRATEGY '/
+@startuml
+skinparam backgroundcolor transparent
+
+class Context
+
+interface Strategy {
+    + execute()
+}
+
+class ConcreteStrategyA {
+    + execute()
+}
+
+class ConcreteStrategyB {
+    + execute()
+}
+
+hide empty members
+
+Context *-- Strategy
+Strategy <|-- ConcreteStrategyA
+Strategy <|-- ConcreteStrategyB
+
+note as N1
+    <b><color:royalBlue>Strategy</color></b>
+    <b>Type:</b> Behavioral
+    Define a family of algorithms,
+    encapsulate each one, and make them
+    interchangeable. Lets the algorithm vary
+    independently from
+    clients that use it.
+end note
+
+@enduml
+#+end_src
+
+#+RESULTS:
+[[file:symbols.png]]
+
++ Strategy
+  - declares an interface common to all supported algorithms. Context uses this interface to call the
+    algorithm defined by a ConcreteStrategy.
++ ConcreteStrategy
+  - implements the algorithm using the Strategy interface.
++ Context (Composition)
+  - is configured with a ConcreteStrategy object.
+  - maintains a reference to a Strategy object.
+  - may define an interface that lets Strategy access its data. Collaborations

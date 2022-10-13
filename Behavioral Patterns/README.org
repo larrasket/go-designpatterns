@@ -1,0 +1,11 @@
+:PROPERTIES:
+:ID:       76d25eaf-b3c8-407f-bd77-80d02942ebac
+:END:
+#+title: Behavioral Patterns
+
+Behavioral patterns are [[id:d5e06849-0ff0-4c9d-8282-c2181722cf92][design patterns]] that are concerned with algorithms and the
+assignment of responsibilities between objects. Behavioral patterns describe not just
+patterns of objects or classes but also the *patterns of communication between them*. These
+patterns characterize complex control flow that's difficult to follow at run-time. They
+shift your focus away from flow of control to let you concentrate just on the way objects
+are interconnected.

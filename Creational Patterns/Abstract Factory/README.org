@@ -1,0 +1,135 @@
+:PROPERTIES:
+:ID:       77fd8d93-9196-43d1-991d-eeec4f8e7eaa
+:END:
+#+title: Abstract Factory
+
+/Also known as: Kit/
+
+The abstract factory pattern is a [[id:7b8fa54f-c997-4476-a768-77f349bf6129][creational patterns]] provide an interface for creating
+families of related or dependent objects without specifying their concrete classes.
+
+* The Problem
+If an application is to be portable, it needs to encapsulate platform dependencies. These "platforms" might
+include: windowing system, operating system, database, etc. Too often this encapsulation is not engineered
+in advance, and lots of ~#ifdef~ case statements with options for all currently supported platforms begin to
+procreate like rabbits throughout the code.
+
+#+begin_src c
+#ifdef LINUX
+#ifdef NET_BSD
+#ifdef WINDOWS_11
+#ifdef WINDOWS_10
+#+end_src
+** Example
+Consider a user interface toolkit that supports multiple look-and-feel standards, such as motif.  Different
+look-and-feels define different appearances and behaviors for user interface "widgets" like scroll bars,
+windows, and buttons. To be portable across look-and-feel standards, an application should not hard-code
+its widgets for a particular look and feel.  Instantiating look-and-feel-specific classes of widgets
+throughout the application makes it hard to change the look and feel later.
+#+DOWNLOADED: screenshot @ 2022-10-03 02:52:45
+https://sourceforge.net/p/motif/code/ci/master/tree/
+
+We can solve this problem by defining:
+
++ an abstract ~WidgetFactory~ class that declares an interface for creating each basic kind of widget.
+
++ There's also an abstract class for each kind of widget, and concrete subclasses implement widgets for
+  specific look-and-feel standards.
+
++ ~WidgetFactory~'s interface has operation that returns a new widget object for each abstract widget
+  class. Clients call these operations to obtain widget instances, but clients aren't aware of the concrete
+  classes they're using. Thus clients stay independent of the prevailing look and feel.
+
+#+DOWNLOADED: screenshot @ 2022-10-03 02:56:32
+
+There is a concrete subclass of WidgetFactory for each look-and-feel standard. Each subclass implements the
+operations to create the appropriate widget for the look and feel. For example, the CreateScrollBar
+operation on the MotifWidgetFactory instantiates and returns a Motif scroll bar, while the corresponding
+operation on the PMWidgetFactory returns a scroll bar for Presentation Manager. Clients create widgets
+solely through the WidgetFactory interface and have no knowledge of the classes that implement widgets for
+a particular look and feel. In other words, clients only have to commit to an interface defined by an
+abstract class, not a particular concrete class.
+
+A WidgetFactory also enforces dependencies between the concrete widget classes. A Motif scroll bar should
+be used with a Motif button and a Motif text editor, and that constraint is enforced automatically as a
+consequence of using a MotifWidgetFactory.
+
+Thus it separates the details of implementation of a set of objects from their general usage and relies on
+object composition, as object creation is implemented in methods exposed in the factory interface.
+
+* Structure
+
+
+#+begin_src plantuml :file symbols.png
+/' ABSTRACT FACTORY '/
+
+@startuml
+skinparam backgroundcolor transparent
+
+class Client
+
+interface AbstractFactory {
+    + createProductA()
+    + createProductB()
+}
+
+class ConcreteFactory {
+    + createProductA()
+    + createProductB()
+}
+
+interface AbstractProduct
+
+class ConcreteProduct
+
+hide empty members
+
+AbstractFactory <|-- ConcreteFactory
+AbstractProduct <|-- ConcreteProduct
+Client --> AbstractFactory
+Client --> AbstractProduct
+
+note as N1
+    <b><color:royalBlue>Abstract Factory</color></b>
+    <b>Type:</b> Creational
+    Provides an interface for creating
+    families of related or dependent
+    objects without specifying their
+    concrete class.
+end note
+
+@enduml
+#+end_src
+
+#+RESULTS:
+[[file:symbols.png]]
+
+
++ AbstractFactory (~ProductFactory~).
+  - declares an interface for operations that create abstract product objects.
++ ConcreteFactory (~MotifWidgetFactory~, ~PMWidgetFactory~).
+  - implements the operations to create concrete product objects.
++ AbstractProduct (~Window~, ~ScrollBar~).
+  - declares an interface for a type of product object.
++ ConcreteProduct (~MotifWindow~, ~MotifScrollBar~).
+  - defines a product object to be created by the corresponding concrete factory.
+  - implements the ~AbstractProduct~ interface.
++ Client
+  - uses only interfaces declared by AbstractFactory and AbstractProduct classes.
+
+* Implementation Techniques
++ Factories as singletons. An application typically needs only one instance of a ConcreteFactory per
+  product family. So it's usually best implemented as a Singleton
+
++ Creating the products. ~AbstractFactory~ only declares an interface for creating products.  It's up to
+  ~ConcreteProduct~ subclasses to actually create them. The most common way to do this is to define a factory
+
+  method for each product. A concrete factory will specify its products by overriding the factory method
+  for each. While this implementation is simple, it requires a new concrete factory subclass for each
+  product family, even if the product families differ only slightly.
+
+  If many product families are possible, the concrete factory can be imple- mented using the Prototype
+  pattern. The concrete factory is initialized with a prototypical instance of each product in the family,
+  and it creates a new product by cloning its prototype. The Prototype-based approach eliminates the need
+  for a new concrete factory class for each new product family. Here's a way to implement a Prototype-based
+  factory:
