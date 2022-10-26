@@ -8,10 +8,10 @@ Johnson and John Vlissides/
 
 * Content
 - [[file:Introduction/][Introduction]]
-- [[file:Behavioral Patterns/][Behavioral Patterns]] [3/18]
-  - [X] [[file:Behavioral Patterns/Strategy/][Strategy]]
-  - [X] [[file:Behavioral Patterns/Observer/][Observer]]
-  - [X] Command
+- [[https://github.com/salehmu/go-designpatterns/tree/master/Behavioral%20Patterns][Behavioral Patterns]]
+  - [[https://github.com/salehmu/go-designpatterns/tree/master/Behavioral%20Patterns/Strategy][Strategy]]
+  - [[https://github.com/salehmu/go-designpatterns/tree/master/Behavioral%20Patterns/Observer][Observer]]
+  - [[https://github.com/salehmu/go-designpatterns/tree/master/Behavioral%20Patterns/Command][Command]]
   - [ ] Null Object
   - [ ] Specification Pattern
   - [ ] State
