@@ -61,7 +61,6 @@ end note
 @enduml
 #+end_src
 
-#+RESULTS:
 [[file:symbols.png]]
 
 

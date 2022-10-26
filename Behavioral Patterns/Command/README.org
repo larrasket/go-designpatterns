@@ -117,8 +117,6 @@ skinparam backgroundcolor transparent
 [[file:symbols.png]]
 
 
-
-
 + ~Client~
   - creates a ConcreteCommand object and sets its receiver.
 + ~Command~
