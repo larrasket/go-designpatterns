@@ -64,7 +64,6 @@ type CacheWithFIFO struct {}
   algorithms if we don't use them all.
     Other wise we are bloating our code.
 + It's difficult to add new algorithms and vary existing ones when $x$ is an integral part of a client.
-
 * Solution
 
 We can avoid these problems by defining classes that encapsulate different $x$ algorithms. An algorithm that's
@@ -78,7 +77,6 @@ The context isn’t responsible for selecting an appropriate algorithm for the j
 the desired strategy to the context. In fact, the context doesn’t know much about strategies. It works with
 all strategies through the same generic interface, which only exposes a single method for triggering the
 algorithm encapsulated within the selected strategy.
-
 * Structure
 
 #+begin_src plantuml :file symbols.png
@@ -122,12 +120,18 @@ end note
 #+RESULTS:
 [[file:symbols.png]]
 
-+ Strategy
++ ~Strategy~
   - declares an interface common to all supported algorithms. Context uses this interface to call the
     algorithm defined by a ConcreteStrategy.
-+ ConcreteStrategy
++ ~ConcreteStrategy~
   - implements the algorithm using the Strategy interface.
-+ Context (Composition)
++ ~Context~ (Composition)
   - is configured with a ConcreteStrategy object.
   - maintains a reference to a Strategy object.
   - may define an interface that lets Strategy access its data. Collaborations
+
+
+
+# Local Variables:
+# fill-column: 110
+# End:

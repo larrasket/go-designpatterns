@@ -1,10 +1,21 @@
+:PROPERTIES:
+:ID:       d5e06849-0ff0-4c9d-8282-c2181722cf92
+:END:
 #+TITLE: Design Patterns
 #+DATE: <2021-02-16 Tue>
 
 #+BEGIN_PREVIEW
-/Based on  Elements of Reusable Object-Oriented Software by Erich Gamma, Richard Helm, Ralph
-Johnson and John Vlissides/
+/Based on  Elements of Reusable Object-Oriented Software by Erich Gamma, Richard Helm, Ralph Johnson and John
+Vlissides/
 #+END_PREVIEW
+
+
+#+BEGIN_QUOTE
+Each pattern describes a problem which occurs over and over again in our environment, and then describes the
+core of the solution to that problem, in such a way that you can use this solution a million times over,
+without ever doing it the same way twice. -- Christopher Alexander
+#+END_QUOTE
+
 
 * Introduction`
 + Course Overview -> [[#ptrns][Design Patterns]]
@@ -12,7 +23,6 @@ Johnson and John Vlissides/
   + Object Oriented Design and Programming
   + We are going to use *Go* and may encounter with: C#, Java and C++. It's okay if you know
     any of these language but we are going to be Golang oriented.
-
 * Introduction & Basic Definition
 :PROPERTIES:
 :CUSTOM_ID: ptrns
@@ -20,57 +30,134 @@ Johnson and John Vlissides/
 
 + *Intuition*: What does the world pattern even mean?
 
-One thing expert designers know not to do is solve every problem from first principles.
-Rather, they reuse solutions that have worked for them in the past. When they find a good
-solution, they use it again and again. _Such experience is part of what makes them experts._
-Consequently, *you'll find recurring patterns of classes and communicating objects in many
-object-oriented systems*. These patterns solve specific design problems and make
-object-oriented designs more flexible, elegant, and ultimately reusable. They help designers
-reuse successful designs by basing new designs on prior experience.  A designer who is
-familiar with such patterns can apply them immediately to design problems without having to
-rediscover them.
+One thing expert designers know not to do is solve every problem from first principles.  Rather, they reuse
+solutions that have worked for them in the past. When they find a good solution, they use it again and again.
+_Such experience is part of what makes them experts._ Consequently, *you'll find recurring patterns of classes
+and communicating objects in many object-oriented systems*. These patterns solve specific design problems and
+make object-oriented designs more flexible, elegant, and ultimately reusable. They help designers reuse
+successful designs by basing new designs on prior experience.  A designer who is familiar with such patterns
+can apply them immediately to design problems without having to rediscover them.
 
-We all know the value of design experience. How many times have you had design dejau that
-feeling that you've solved a problem before but not knowing exactly where or how? If you
-could remember the details of the previous problem and how you solved it, then you could
-reuse the experience instead of rediscovering it. However, we don't do a good job of
-recording experience in software design for others to use.
+We all know the value of design experience. How many times have you had design dejau that feeling that you've
+solved a problem before but not knowing exactly where or how? If you could remember the details of the
+previous problem and how you solved it, then you could reuse the experience instead of rediscovering it.
+However, we don't do a good job of recording experience in software design for others to use.
 
 
-Christopher Alexander says, "Each pattern describes a problem which occurs over and over
-again in our environment, and then describes the core of the solution to that problem, in
-such a way that you can use this solution a million times over, without ever doing it the
-same way twice". Even though Alexander was talking about patterns in buildings and towns,
-what he says is true about object-oriented design patterns. Our solutions are expressed in
-terms of objects and interfaces instead of walls and doors, but at the core of both kinds of
-patterns is a solution to a problem in a context.  In general, a pattern has four essential
-elements:
+Christopher Alexander says, "Each pattern describes a problem which occurs over and over again in our
+environment, and then describes the core of the solution to that problem, in such a way that you can use this
+solution a million times over, without ever doing it the same way twice". Even though Alexander was talking
+about patterns in buildings and towns, what he says is true about object-oriented design patterns. Our
+solutions are expressed in terms of objects and interfaces instead of walls and doors, but at the core of both
+kinds of patterns is a solution to a problem in a context.
 
-1. *The pattern name* is a handle we can use to describe a design problem, its solutions, and
-   consequences in a word or two. Naming a pattern immediately increases our design
-   vocabulary. It lets us design at a higher level of abstraction. Having a vocabulary for
-   patterns lets us talk about them with our colleagues, in our documentation, and even to
-   ourselves. It makes it easier to think about designs and to communicate them and their
-   trade-offs to others. Finding good names has been one of the hardest parts of developing
-   our catalog.
-2. *The problem* describes when to apply the pattern. It explains the problem and its
-   context.  It might describe specific design problems such as how to represent algorithms
-   as objects. It might describe class or object structures that are symptomatic of an
-   inflexible design. Sometimes the problem will include a list of conditions that must be
-   met before it makes sense to apply the pattern.
-3. *The solution* describes the elements that make up the design, their relationships,
-   responsibilities, and collaborations. The solution doesn't describe a particular concrete
-   design or implementation, because a pattern is like a template that can be applied in
-   many different situations. Instead, the pattern provides an abstract description of a
-   design problem and how a general arrangement of elements (classes and objects in our
-   case) solves it.
-4. *The consequences* are the results and trade-offs of applying the pattern. Though
-   consequences are often unvoiced when we describe design decisions, they are critical for
-   evaluating design alternatives and for understanding the costs and benefits of applying
-   the pattern.
+"A design pattern _systematically names_, and _explains a general design_ that addresses a _recurring_ /design
+problem/ in object-oriented systems. It describes 1. the problem,
+2. the solution, 3. and its consequences.""
 
+In general, a pattern has four essential elements:
+
+
+1. *The pattern name* is a handle we can use to describe a design problem, its solutions, and consequences in
+   a word or two. Naming a pattern immediately increases our design vocabulary. It lets us design at a higher
+   level of abstraction. Having a vocabulary for patterns lets us talk about them with our colleagues, in our
+   documentation, and even to ourselves. It makes it easier to think about designs and to communicate them and
+   their trade-offs to others. Finding good names has been one of the hardest parts of developing our catalog.
+2. *The problem* describes when to apply the pattern. It explains the problem and its context.  It might
+   describe specific design problems such as how to represent algorithms as objects. It might describe class
+   or object structures that are symptomatic of an inflexible design. Sometimes the problem will include a
+   list of conditions that must be met before it makes sense to apply the pattern.
+3. *The solution* describes the elements that make up the design, their relationships, responsibilities, and
+   collaborations. The solution doesn't describe a particular concrete design or implementation, because a
+   pattern is like a template that can be applied in many different situations. Instead, the pattern provides
+   an abstract description of a design problem and how a general arrangement of elements (classes and objects
+   in our case) solves it.
+4. *The consequences* are the results and trade-offs of applying the pattern. Though consequences are often
+   unvoiced when we describe design decisions, they are critical for evaluating design alternatives and for
+   understanding the costs and benefits of applying the pattern.
+* Criticism
+Design patterns are commonly criticized in old-school tech conferences and by many computer science and
+software engineering pioneers. In many situations, design patterns where considered harmful over useful to
+software development. One of those pioneers I'm talking about are:
+
++ /[[https://twitter.com/marick][Brian Marick]]/; American developer, in 2017 he had a fine talk named "Patterns: Why did they fail"
++ /[[https://norvig.com/bio.html][Peter Norvig]]/; well-known computer scientist. He [[https://www.norvig.com/design-patterns/ppframe.htm][says]] that "most GoF patterns are implicit and not worth
+  talking about in dynamic, functional languages", and he said that in the 90s.
++ /[[http://www.paulgraham.com/][Paul Graham]]/; Lisp pioneer,
+
+  #+begin_quote
+This practice is not only common, but institutionalized. For example, in the OO world you hear a good deal
+about "patterns". I wonder if these patterns are not sometimes evidence of case (c), the human compiler, at
+work. *When I see patterns in my programs, I consider it a sign of trouble. The shape of a program should
+reflect only the problem it needs to solve.* Any other regularity in the code is a sign, to me at least, that
+I'm using abstractions that aren't powerful enough-- often that I'm generating by hand the expansions of some
+macro that I need to write.
+
+  #+end_quote
+
+  #+begin_quote
+Patterns in your code often mean that your ideas aren't compressing well, either because they're bad or the
+language is.
+  #+end_quote
+  #+begin_quote
+Patterns in source code are a bad sign, not a good one. They mean the code is a bunch of de facto
+macroexpansions.
+  #+end_quote
+
+
+Why? Well, the answer is mostly "controversial" and people think of many different reasons.  Some says that it
+was the developers' issue and how they misused and overused patterns.  Some thinks that patterns internally
+were a bad idea (those like Graham and Norvia, you can notice how old are their thoughts, even before the
+recency of design patterns). And other thinks that it's just  the matter of a new things; for instance, the
+[[id:110903de-8895-4b48-aa0c-dde29f0a10f0][Singleton Pattern]], is considered obsolete mainly (along with the harm of global variable idea) because of it
+is impossible to unit test. If unit test wasn't ubiquitous as it is now, maybe no one would bother. Other
+thinks that patterns are only [[https://wiki.c2.com/?AreDesignPatternsMissingLanguageFeatures][missing language features]] (which is technically true with some patterns,
+[[id:1095cf8d-6b4a-47a9-8dd8-59b49e1a9110][Prototype]] is a common example).
+
+
+** Funny Story
+#+begin_quote
+In a galaxy far far away, there was a kingdom where people didn't know structured programming. Their
+programming languages only had (conditial) branches, jumps, or GOTOs (as they were colloquially called). And
+they had a very influential programming book, called "GOTO design patterns". Here's a few examples of design
+patterns from the book:
+- "IF pattern" - If you need to execute code only if some condition is true, you write a conditional GOTO that
+  lands after the code that is to be executed conditionally.
+
+- "IF-ELSE pattern" - If you need to execute code only if some condition is true, and some other code if the
+  condition is false, you use IF-ELSE pattern. It's similar to IF pattern, but at the end of the code in the
+  IF pattern, you add another unconditional GOTO that branches after the code that is to be executed if the
+  condition is false.
+
+- "WHILE pattern" - If you need to repeatedly execute code and check some condition after each execution, you
+  add a conditional GOTO at the end of the code that goes back to the beginning of the code you want to
+  repeatedly execute.
+
+- "BREAK pattern" - This is a pattern to use with the WHILE or UNTIL patterns. If you need to, on some
+  condition, stop repeated execution of the code in the middle of the code, you add a conditional GOTO into
+  the middle of the code that just branches after the repeatedly executed code block.
+
+Everyone was happy with the book. No more messy spaghetti code full of random GOTOs (as was common before the
+book appeared), because young apprentices memorized all the patterns in the book, and they just applied them
+rigorously. Also, understanding code became easier, because everybody instantly recognized those patterns in
+the well written code, and they had a common vocabulary to talk about these things.
+
+One day, a traveler from another world came into this kingdom. He looked at the book and wondered: "Why don't
+you just add these patterns into your computer language as abstractions? Wouldn't that aid comprehension even
+more?" Unfortunately, he was executed for the heresy.
+#+end_quote
+** Personal Opinion
+Anyway, my opinion is; yes, many patterns are now obsolete and sometimes harmful, however they are still
+useful to learn that's, it will be easier to communicate with workers who can't even come with an obvious
+patterned idea.
 * Resources
 + Text books:
   + Mainly: [[file:Design Patterns Elements of Reusable Object-Oriented Software.pdf][Design Patterns Elements of Reusable Object-Oriented Software]]
   + Side by side with, and with respect to: [[file:Design Patterns Elements of Reusable Object-Oriented Software.pdf][Design Patterns Head First]]
 + Assents available on the git repo.
+
+[[id:da168ca1-72ad-44e9-bb54-8302afd3e72f][Computer Science]]
+
+# Local Variables:
+# fill-column: 110
+# End:

@@ -27,3 +27,6 @@ var x = new Twitter_Cleint("API_KEY")
     // http client
 #+end_src
 
+# Local Variables:
+# fill-column: 110
+# End:

@@ -8,11 +8,10 @@ Johnson and John Vlissides/
 
 * Content
 - [[file:Introduction/][Introduction]]
-- [[file:Behavioral Patterns/][Behavioral Patterns]] [2/19]
+- [[file:Behavioral Patterns/][Behavioral Patterns]] [3/18]
   - [X] [[file:Behavioral Patterns/Strategy/][Strategy]]
   - [X] [[file:Behavioral Patterns/Observer/][Observer]]
-  - [ ] Singleton
-  - [ ] Command
+  - [X] Command
   - [ ] Null Object
   - [ ] Specification Pattern
   - [ ] State
@@ -28,12 +27,11 @@ Johnson and John Vlissides/
   - [ ] Iterator
   - [ ] Discussion of Behavioral Patterns
   - [ ] Blackboar
-- [ ] Creational Patterns [0/5]
-  - [ ]  Builder
-  - [ ]  Prototype
-  - [ ]  Factory
+- [-] Creational Patterns [2/4]
+  - [-]  Builder
+  - [X]  Prototype
+  - [X]  Abstract Factory
   - [ ]  Factory Method
-  - [ ]  Abstract Factory
 - [ ] Structural Patterns [0/7]
   - [ ] Facade
   - [ ] Decorator
@@ -42,3 +40,7 @@ Johnson and John Vlissides/
   - [ ] Flyweight
   - [ ] Proxy
   - [ ] Discussion of Structural Patterns
+
+# Local Variables:
+# fill-column: 110
+# End:

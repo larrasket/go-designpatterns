@@ -105,16 +105,16 @@ end note
 [[file:symbols.png]]
 
 
-+ AbstractFactory (~ProductFactory~).
++ ~AbstractFactory~ (~ProductFactory~).
   - declares an interface for operations that create abstract product objects.
-+ ConcreteFactory (~MotifWidgetFactory~, ~PMWidgetFactory~).
++ ~ConcreteFactory~ (~MotifWidgetFactory~, ~PMWidgetFactory~).
   - implements the operations to create concrete product objects.
-+ AbstractProduct (~Window~, ~ScrollBar~).
++ ~AbstractProduct~ (~Window~, ~ScrollBar~).
   - declares an interface for a type of product object.
-+ ConcreteProduct (~MotifWindow~, ~MotifScrollBar~).
++ ~ConcreteProduct~ (~MotifWindow~, ~MotifScrollBar~).
   - defines a product object to be created by the corresponding concrete factory.
   - implements the ~AbstractProduct~ interface.
-+ Client
++ ~Client~
   - uses only interfaces declared by AbstractFactory and AbstractProduct classes.
 
 * Implementation Techniques
@@ -133,3 +133,9 @@ end note
   and it creates a new product by cloning its prototype. The Prototype-based approach eliminates the need
   for a new concrete factory class for each new product family. Here's a way to implement a Prototype-based
   factory:
+
+
+
+# Local Variables:
+# fill-column: 110
+# End:

@@ -20,7 +20,7 @@ two scenarios for the customers: 1. They would be visiting the website each ~5 m
 check whether the product is available. 2. They (all of them) will receive an email from the
 store to be informed that the new product is available, which is very inefficient solution
 because many of users do not care about that product.
-* Bad Solution
+* Naive Solution
 There is no limits of how you can go bad in solving this problem, sol just let's go on the solution.
 * Solution
 Defining a one-to-many relationship between the objects resolve the problem. We call the
@@ -76,10 +76,10 @@ end note
 #+RESULTS:
 [[file:symbols.png]]
 
-+ Subject
++ ~Subject~
   - knows its observers. Any number of Observer objects may observe a subject.
   - provides an interface for attaching and detaching Observer objects.
-+ Observer
++ ~Observer~
   - defines an updating interface for objects that should be notified of changes in a subject.
 + ~ConcreteSubject~
   - stores state of interest to ~ConcreteObserver~ objects.
@@ -88,3 +88,10 @@ end note
   - maintains a reference to a ~ConcreteSubject~ object.
   - stores state that should stay consistent with the subject's.
   - implements the Observer updating interface to keep its state consistent with the subject's.
+
+
+
+
+# Local Variables:
+# fill-column: 110
+# End:

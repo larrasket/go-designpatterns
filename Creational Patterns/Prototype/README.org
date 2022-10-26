@@ -3,8 +3,8 @@
 :END:
 #+title: Prototype
 
-The prototype pattern is a [[id:7b8fa54f-c997-4476-a768-77f349bf6129][creational pattern]] that specifies the kinds of objects to create using a prototypical instance, and create new
-objects by copying this prototype.
+The prototype pattern is a [[id:7b8fa54f-c997-4476-a768-77f349bf6129][creational pattern]] that specifies the kinds of objects to create using a
+prototypical instance, and create new objects by copying this prototype.
 
 * The Problem
 
@@ -30,7 +30,6 @@ belong to the same class.
 
 An object that supports cloning is called a *prototype*. When your objects have dozens of fields and hundreds of
 possible configurations, cloning them might serve as an alternative to subclassing.
-
 * Structure
 #+begin_src plantuml :file symbols.png
 /' PROTOTYPE '/
@@ -77,3 +76,8 @@ end note
   - implements an operation for cloning itself
 + ~Client~
   - creates a new object by asking a prototype to clone itself
+
+
+# Local Variables:
+# fill-column: 110
+# End:
