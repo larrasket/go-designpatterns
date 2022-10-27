@@ -12,7 +12,7 @@ Johnson and John Vlissides/
   - [[https://github.com/salehmu/go-designpatterns/tree/master/Behavioral%20Patterns/Strategy][Strategy]]
   - [[https://github.com/salehmu/go-designpatterns/tree/master/Behavioral%20Patterns/Observer][Observer]]
   - [[https://github.com/salehmu/go-designpatterns/tree/master/Behavioral%20Patterns/Command][Command]]
-  - Null Object
+  - [[https://github.com/salehmu/go-designpatterns/tree/master/Behavioral%20Patterns/Null][Null Object]]
   - Specification Pattern
   - State
   - Data Access Pattern
