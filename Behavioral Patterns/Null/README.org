@@ -107,9 +107,9 @@ comfortably null class. does nothing and does not demand a great deal of coding 
 - =AbstractObject= -
   + declares the interface for Client's collaborator
   + implements default behavior for the interface common to all classes, as appropriate
-- = ==RealObject= -
+- =RealObject= -
   + defines a concrete subclass of AbstractObject whose instances provide useful behavior that Client expects
-- = ==NullObject= -
+- =NullObject= -
   + provides an interface identical to AbstractObject's so that a null object can be substituted for a real
     object
   + implements its interface to do nothing. What exactly it means to do nothing depends on what sort of
