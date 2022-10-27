@@ -1,0 +1,121 @@
+:PROPERTIES:
+:ID:       c22a9729-23b7-4b1a-b28a-cf80a89dfcc9
+:END:
+#+title: Null Object
+
+The null object pattern is a [[id:76d25eaf-b3c8-407f-bd77-80d02942ebac][behavioral pattern]] that intents to encapsulate the absence of an object by
+providing a substitutable object that offers suitable default, do nothing behavior.
+
+
+* The Problem
+
+Given that an object reference may optionally be null, and that the result of a null check is to do nothing or
+use a default value, how can the presence of a null be treated transparently?
+
+Consider providing a logging facility for some kind of simple server service that can be used to record the
+outcome of operations and any significant events in the operation of the service. One can imagine many
+different kinds of log, such as a log that writes directly to the console. However, a server is not required
+to use a log, so the association between the server and log is optional.
+
+[[https://user-images.githubusercontent.com/74098495/198158567-47a5b2f9-6f93-4b49-bfe0-676e330ce911.png]]
+
+The following shows two possible implementations:
+
+#+begin_src go
+import (
+	"fmt"
+	"os"
+)
+
+type Log interface {
+	Write(message string)
+}
+type CosoleLog struct{}
+
+func (C CosoleLog) Write(message string) {
+	fmt.Println(message)
+}
+
+type FileLog struct {
+	LogFileName string
+}
+
+func (F FileLog) Write(message string) {
+	if err := os.WriteFile(F.LogFileName, []byte(message), 0644); err != nil {
+		panic(err)
+	}
+}
+#+end_src
+
+A simple usage example:
+
+#+begin_src go
+type Service struct {
+	Log
+}
+
+func (S Service) Result(request string) {
+	if S.Log != nil {
+		S.Log.Write(request + "is received")
+	}
+
+	if S.Log != nil {
+		S.Log.Write(request + "is handled")
+	}
+	//etc..
+}
+#+end_src
+
+
+
+There is a great deal of procedural clunkiness in code, such as:
+#+begin_src go
+	if S.Log != nil {
+		...
+	}
+#+end_src
+
+This can be repetitive, as well as error prone: It is possible to forget to write such a null guard, and
+repeated checks for null references can clutter and obfuscate your code.
+
+This way of writing code is called [[https://en.wikipedia.org/wiki/Conditional_compilation][conditional compilation]],
+
+While conditional code does not serve the main purpose of a method, it tends to get in the way of the method's
+own logic, making the method longer and harder to understand. This is especially true if the code is
+frequently repeated, as one might expect from the logging facility in the example, or if in-house coding
+guidelines encourage use of blocks in preference to single statements.
+
+
+* Solution
+
+Provide a class that conforms to the interface required of the object reference, implementing all of its
+methods to do nothing or provide return default values. Use an instance of this class when the object
+reference would otherwise have been null.
+
+[[https://user-images.githubusercontent.com/74098495/198166471-95371c2e-f3ec-4867-8aaa-79aae01e2892.png]]
+
+Returning to the server example, we can introduce a Null Object type, ~NullLog~, into the Log hierarchy. Such a
+comfortably null class. does nothing and does not demand a great deal of coding skill.
+
+* Structure
+[[https://user-images.githubusercontent.com/74098495/198171795-4900a109-d850-40b9-bf17-f04d9dd09b2e.png]]
+
+
+
+- =Client= -
+  + requires a collaborator.
+- =AbstractObject= -
+  + declares the interface for Client's collaborator
+  + implements default behavior for the interface common to all classes, as appropriate
+- = ==RealObject= -
+  + defines a concrete subclass of AbstractObject whose instances provide useful behavior that Client expects
+- = ==NullObject= -
+  + provides an interface identical to AbstractObject's so that a null object can be substituted for a real
+    object
+  + implements its interface to do nothing. What exactly it means to do nothing depends on what sort of
+    behavior Client is expecting
+  + when there is more than one way to do nothing, more than one NullObject class may be required
+
+# Local Variables:
+# fill-column: 110
+# End:
